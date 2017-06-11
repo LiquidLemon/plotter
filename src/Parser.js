@@ -68,6 +68,11 @@ const Parser = {
           }
           ops.pop();
           break;
+        case 'SEPARATOR':
+          while (ops.length > 0 && ops[ops.length-1].type !== 'LPAREN') {
+            output.push(ops.pop());
+          }
+          break;
       }
     }
 

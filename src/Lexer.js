@@ -41,7 +41,7 @@ const Lexer = {
       expression.push(token);
       i += token.length;
     }
-    return expression.filter((t) => t.type !== 'SEPARATOR');
+    return expression;
   },
 
   getToken(input) {

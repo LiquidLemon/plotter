@@ -8,8 +8,8 @@ const BUILTINS = {
   '^': (a, b) => Math.pow(a, b),
   'sin': Math.sin,
   'cos': Math.cos,
-  'max': Math.max,
-  'min': Math.min
+  'max': (a, b) => Math.max(a, b),
+  'min': (a, b) => Math.min(a, b)
 };
 
 function getFunction(name) {
