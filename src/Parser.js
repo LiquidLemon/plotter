@@ -24,7 +24,7 @@ const ASSOC = {
 
 function assoc(token) {
   return token.type === 'FUNC'
-    ? 'L'
+    ? 'R'
     : ASSOC[token.value];
 }
 
@@ -37,6 +37,7 @@ const Parser = {
   convertToRPN(tokens) {
     const output = [];
     const ops = [];
+    const arity = [];
     while (tokens.length > 0) {
       let token = tokens.shift();
       switch (token.type) {
@@ -45,9 +46,12 @@ const Parser = {
           output.push(token);
           break;
         case 'FUNC':
+          token.arity = 1;
+          arity.push(token);
           ops.push(token);
           break;
         case 'OP':
+          token.arity = 2;
           while (ops.length > 0) {
             let top = ops[ops.length-1];
             if (assoc(token) === 'R' && precendence(top) > precendence(token) ||
@@ -60,15 +64,20 @@ const Parser = {
           ops.push(token);
           break;
         case 'LPAREN':
+          if (ops.length > 0 && ops[ops.length-1].type !== 'FUNC') {
+            arity.push({});
+          }
           ops.push(token);
           break;
         case 'RPAREN':
+          arity.pop();
           while (ops.length > 0 && ops[ops.length-1].type !== 'LPAREN') {
             output.push(ops.pop());
           }
           ops.pop();
           break;
         case 'SEPARATOR':
+          arity[arity.length-1].arity++;
           while (ops.length > 0 && ops[ops.length-1].type !== 'LPAREN') {
             output.push(ops.pop());
           }

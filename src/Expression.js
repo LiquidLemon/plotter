@@ -8,8 +8,9 @@ const BUILTINS = {
   '^': (a, b) => Math.pow(a, b),
   'sin': Math.sin,
   'cos': Math.cos,
-  'max': (a, b) => Math.max(a, b),
-  'min': (a, b) => Math.min(a, b)
+  'max': Math.max,
+  'min': Math.min,
+  'pi': () => Math.PI
 };
 
 function getFunction(name) {
@@ -35,7 +36,7 @@ export default class Expression {
         }
       } else if (t.type === 'OP' || t.type == 'FUNC') {
         const fn = getFunction(t.value);
-        const args = stack.splice(-fn.length);
+        const args = stack.splice(-t.arity);
         const value = fn.apply(null, args);
         stack.push(value);
       }
