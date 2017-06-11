@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Expression from './Expression';
 import './App.css';
 
 class App extends Component {
@@ -11,7 +12,6 @@ class App extends Component {
 
     this.plot = this.plot.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.plot();
   }
 
   render() {
@@ -24,14 +24,18 @@ class App extends Component {
     );
   }
 
+  componentDidMount() {
+    this.plot();
+  }
+
   handleChange(event) {
     this.setState({input: event.target.value});
   }
 
   plot() {
-    const fun = this.state.input;
-    const fn = eval(`(x) => (${fun})`);
-    this.setState({fun: fn});
+    const ex = new Expression(this.state.input);
+    const fun = x => ex.eval({x});
+    this.setState({fun});
   }
 }
 
