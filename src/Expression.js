@@ -34,7 +34,7 @@ export default class Expression {
         } else {
           throw new Error(`'${t.value}' is undefined`);
         }
-      } else if (t.type === 'OP' || t.type == 'FUNC') {
+      } else if (t.type === 'OP' || t.type === 'FUNC') {
         const fn = getFunction(t.value);
         const args = stack.splice(-t.arity);
         const value = fn.apply(null, args);

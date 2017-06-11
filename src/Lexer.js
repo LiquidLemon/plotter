@@ -6,8 +6,8 @@ class Rule {
   }
 
   getToken(input) {
-    let match;
-    if (match = input.match(this.regex)) {
+    let match = input.match(this.regex);
+    if (match) {
       return {
         type: this.type,
         value: this.transform(match),

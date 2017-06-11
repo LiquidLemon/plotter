@@ -54,8 +54,8 @@ const Parser = {
           token.arity = 2;
           while (ops.length > 0) {
             let top = ops[ops.length-1];
-            if (assoc(token) === 'R' && precendence(top) > precendence(token) ||
-              assoc(token) === 'L' && precendence(top) >= precendence(token)) {
+            if ((assoc(token) === 'R' && precendence(top) > precendence(token)) ||
+                (assoc(token) === 'L' && precendence(top) >= precendence(token))) {
               output.push(ops.pop());
             } else {
               break;
@@ -82,10 +82,12 @@ const Parser = {
             output.push(ops.pop());
           }
           break;
+        default:
+          throw new Error(`Unknown token type '${token.type}'`);
       }
     }
 
-    while (ops.length != 0) {
+    while (ops.length !== 0) {
       output.push(ops.pop());
     }
 

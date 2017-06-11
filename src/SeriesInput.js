@@ -30,7 +30,7 @@ class SeriesInput extends Component {
   handleChange = e => {
     const state = {[e.target.name]: e.target.value};
     this.setState(state);
-    if (e.target.name == "color") this.sendMessage();
+    if (e.target.name === "color") this.sendMessage();
   };
 
   sendMessage() {

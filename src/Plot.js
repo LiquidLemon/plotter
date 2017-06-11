@@ -48,7 +48,7 @@ class Plot extends Component {
       const realY = fun(realX);
       const y = this.props.height - ((realY * ratio) + middleY);
 
-      if (x == 0) {
+      if (x === 0) {
         ctx.moveTo(x, y);
       } else {
         ctx.lineTo(x, y);
