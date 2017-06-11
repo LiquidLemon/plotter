@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Expression from './Expression';
 
 class Plot extends Component {
   render () {
@@ -25,16 +26,19 @@ class Plot extends Component {
   update() {
     this.context = this.refs.canvas.getContext("2d");
     this.drawGrid();
-    this.drawF(this.props.fun);
+    this.props.series.forEach(s => {
+      const exp = new Expression(s.exp);
+      this.drawF(x => exp.eval({x}), s.color);
+    });
   }
 
-  drawF(fun) {
+  drawF(fun, color) {
     const ratio = this.props.width/this.props.resolution;
     const middleX = this.props.width/2;
     const middleY = this.props.height/2;
 
     const ctx = this.context;
-    ctx.strokeStyle = "green";
+    ctx.strokeStyle = color;
     const _lineWidth = ctx.lineWidth
     ctx.lineWidth = this.props.lineWidth;
 

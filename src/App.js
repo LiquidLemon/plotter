@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Expression from './Expression';
 import Plot from './Plot'
+import SeriesInput from './SeriesInput';
 import './App.css';
 
 class App extends Component {
@@ -8,7 +9,8 @@ class App extends Component {
     super(props);
     this.state = {
       fun: (x) => x,
-      input: "x"
+      input: "x",
+      series: []
     };
 
     this.plot = this.plot.bind(this);
@@ -18,12 +20,16 @@ class App extends Component {
   render() {
     return (
       <div>
-        <label>f(x) = <input type="text" value={this.state.input} onChange={this.handleChange} /></label>
-        <Plot resolution={5} width={500} height={500} lineWidth={3} fun={this.state.fun} />
+        <SeriesInput onSubmit={this.handleSeriesSubmit} />
+        <Plot resolution={5} width={500} height={500} lineWidth={3} series={this.state.series} />
         <button onClick={this.plot}>Plot</button>
       </div>
     );
   }
+
+  handleSeriesSubmit = series => {
+    this.setState({series: [series]});
+  };
 
   componentDidMount() {
     this.plot();
@@ -34,6 +40,7 @@ class App extends Component {
   }
 
   plot() {
+    this.state.series.forEach(s => {})
     const ex = new Expression(this.state.input);
     const fun = x => ex.eval({x});
     this.setState({fun});
