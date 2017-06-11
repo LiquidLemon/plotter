@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Expression from './Expression';
 import Plot from './Plot'
 import SeriesInput from './SeriesInput';
 import './App.css';
@@ -8,44 +7,44 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fun: (x) => x,
-      input: "x",
-      series: []
+      series: [{exp: "x", key: 0}]
     };
-
-    this.plot = this.plot.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.seriesKey = 0;
   }
 
   render() {
+    const inputs = this.state.series.map((s, i) => {
+      return <SeriesInput exp={s.exp} color={s.color} key={s.color} i={i}
+        onSubmit={this.updateSeries}
+        onRemove={this.removeSeries} />
+    });
+
     return (
       <div>
-        <SeriesInput onSubmit={this.handleSeriesSubmit} />
         <Plot resolution={5} width={500} height={500} lineWidth={3} series={this.state.series} />
-        <button onClick={this.plot}>Plot</button>
+        {inputs}
+        <button onClick={this.addSeries}>+</button>
       </div>
     );
   }
 
-  handleSeriesSubmit = series => {
-    this.setState({series: [series]});
+  updateSeries = s => {
+    const series = this.state.series.slice();
+    series[s.i] = s;
+    this.setState({series});
   };
 
-  componentDidMount() {
-    this.plot();
+  removeSeries = key => {
+    let series = this.state.series.slice();
+    series = series.filter((_, i) => i !== key);
+    this.setState({series});
   }
 
-  handleChange(event) {
-    this.setState({input: event.target.value});
-  }
-
-  plot() {
-    this.state.series.forEach(s => {})
-    const ex = new Expression(this.state.input);
-    const fun = x => ex.eval({x});
-    this.setState({fun});
-  }
+  addSeries = () => {
+    const series = this.state.series.slice();
+    series.push({exp: "x", key: ++this.seriesKey});
+    this.setState({series});
+  };
 }
-
 
 export default App;

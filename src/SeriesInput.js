@@ -9,9 +9,8 @@ class SeriesInput extends Component {
     super(props);
     this.state = {
       exp: props.exp || "x",
-      color: randomColor()
+      color: props.color || randomColor()
     };
-    console.log(this.state.color);
   }
 
   render() {
@@ -19,10 +18,12 @@ class SeriesInput extends Component {
       <form onSubmit={this.handleSubmit}>
       <label>
       f(x) =&nbsp;
-      <input type="text" name="exp" value={this.state.exp} onChange={this.handleChange} />
+      <input type="text" name="exp" value={this.state.exp}
+        onChange={this.handleChange} onBlur={this.handleSubmit} />
       </label>
       <input type="color" name="color" value={this.state.color} onChange={this.handleChange} />
       <input type="submit" value="Draw" />
+      <button onClick={() => this.props.onRemove(this.props.i)}>-</button>
       </form>
     );
   }
@@ -36,7 +37,8 @@ class SeriesInput extends Component {
   sendMessage() {
     this.props.onSubmit({
       exp: this.state.exp,
-      color: this.state.color
+      color: this.state.color,
+      i: this.props.i
     });
   }
 
