@@ -23,6 +23,8 @@ class SeriesInput extends Component {
       </label>
       <input type="color" name="color" value={this.state.color} onChange={this.handleChange} />
       <input type="submit" value="Draw" />
+      <button onClick={this.onMove(-1)} disabled={this.props.first}>Up</button>
+      <button onClick={this.onMove(1)} disabled={this.props.last}>Down</button>
       <button onClick={() => this.props.onRemove(this.props.i)}>-</button>
       </form>
     );
@@ -42,6 +44,12 @@ class SeriesInput extends Component {
   handleSubmit = e => {
     e.preventDefault();
     this.update('exp', this.state.exp);
+  };
+
+  onMove = dir => {
+    return e => {
+      this.props.onMove(this.props.i, dir);
+    };
   };
 
   update(name, value) {

@@ -26,7 +26,7 @@ class Plot extends Component {
   update() {
     this.context = this.refs.canvas.getContext("2d");
     this.drawGrid();
-    this.props.series.forEach(s => {
+    this.props.series.slice().reverse().forEach(s => {
       const exp = new Expression(s.exp);
       this.drawF(x => exp.eval({x}), s.color);
     });

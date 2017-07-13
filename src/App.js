@@ -16,7 +16,10 @@ class App extends Component {
     const inputs = this.state.series.map((s, i) => {
       return <SeriesInput key={s.key} i={i}
         onUpdate={this.updateSeries}
-        onRemove={this.removeSeries} />
+        onRemove={this.removeSeries}
+        onMove={this.moveSeries}
+        first={i === 0} last={i === this.state.series.length -1}
+        />
     });
 
     return (
@@ -39,6 +42,17 @@ class App extends Component {
     series = series.filter((_, i) => i !== key);
     this.setState({series});
   }
+
+  moveSeries = (i, dir) => {
+    if (i === 0 && dir === -1 || i === this.state.series.length - 1 && dir === 1) return;
+    const series = this.state.series.slice();
+    const tmp = series[i];
+    series[i] = series[i+dir];
+    series[i+dir] = tmp;
+    series[i].i += dir;
+    series[i+dir].i -= dir;
+    this.setState({series});
+  };
 
   addSeries = () => {
     const series = this.state.series.slice();
