@@ -6,10 +6,10 @@ function randomColor() {
 
 class SeriesInput extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      exp: props.exp || "x",
-      color: props.color || randomColor()
+      color: randomColor(),
+      exp: "x"
     };
   }
 
@@ -28,29 +28,25 @@ class SeriesInput extends Component {
     );
   }
 
-  handleChange = e => {
-    const state = {[e.target.name]: e.target.value};
-    this.setState(state);
-    if (e.target.name === "color") this.sendMessage();
-  };
-
-  sendMessage() {
-    this.props.onSubmit({
-      exp: this.state.exp,
-      color: this.state.color,
-      i: this.props.i
-    });
+  componentWillMount() {
+    this.update('color', this.state.color);
   }
+
+  handleChange = e => {
+    this.setState({[e.target.name]: e.target.value});
+    if (e.target.name === 'color') {
+      this.update(e.target.name, e.target.value);
+    }
+  };
 
   handleSubmit = e => {
     e.preventDefault();
-    this.sendMessage();
+    this.update('exp', this.state.exp);
   };
 
-  componentDidMount() {
-    this.sendMessage();
+  update(name, value) {
+    this.props.onUpdate({name, value, i: this.props.i});
   }
-
 }
 
 export default SeriesInput;

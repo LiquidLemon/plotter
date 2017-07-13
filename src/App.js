@@ -14,8 +14,8 @@ class App extends Component {
 
   render() {
     const inputs = this.state.series.map((s, i) => {
-      return <SeriesInput exp={s.exp} color={s.color} key={s.color} i={i}
-        onSubmit={this.updateSeries}
+      return <SeriesInput key={s.key} i={i}
+        onUpdate={this.updateSeries}
         onRemove={this.removeSeries} />
     });
 
@@ -30,7 +30,7 @@ class App extends Component {
 
   updateSeries = s => {
     const series = this.state.series.slice();
-    series[s.i] = s;
+    series[s.i][s.name] = s.value;
     this.setState({series});
   };
 
